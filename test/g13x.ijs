@@ -79,7 +79,7 @@ h=: 2 3&+@sum
 'length error: fex'    -: fex '2 3+4 5 6'
 'domain error: fex'    -: fex '+/1;2 3'
 'domain error: sum'    -: fex 'sum ''asdf'''
-'syntax error: g'      -: fex 'f 0'
+'noun result was required: g'      -: fex 'f 0'
 'length error: f'      -: fex 'f 2 3 4'
 'domain error: sum'    -: fex 'h ''asdf'''
 'length error: h'      -: fex 'h i.3 4'
@@ -161,10 +161,14 @@ sum=: 3 : ('z=.+/y';'t=: 13!:18 $0';'z')
 1: mean i.12
 NB. (2{.t) -: (2,{:$t){.];.1 '|sum[1]|mean[0] !'
 
+expa =: 1 : 'u y'
+fexpa =: 0: expa f.
+'0: (1 : ''u y'')' -: 5!:5 <'fexpa'
+
 13!:0 ]0
 
 
-4!:55 ;:'commute conj f f1 f2 fac foo '
+4!:55 ;:'commute conj f f1 f2 fac foo expa fexpa '
 4!:55 ;:'g goo goo1 goo2 goo3 h h1 mean sum t x '
 
 

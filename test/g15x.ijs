@@ -1,6 +1,7 @@
 NB. 15!: ----------------------------------------------------------------
 
-pc=:(9!:12 '') e. 2 6     NB. works on Windows only
+NB. runs as noop as winapi.ijs is no longer supported - might be resurrected some day
+pc=: 0 NB. (9!:12 '') e. 2 6  NB. Windows only
 
 NB. a small memory leak is expected on the next line
 2 = {:15!:1 ((15!:8) 10),0 5 4  NB. reference count
@@ -61,11 +62,11 @@ fread  =: 3 : 0   NB. fread handle
 
 test=: 3 : 0   NB. windows only
 if. pc do.
-assert. 1 -: fcreatedir <'testtemp'
-assert. 0 -: fdelete <'testtemp\non_existent_file'
+assert. 1 -: fcreatedir <jpath '~temp/testtemp'
+assert. 0 -: fdelete <jpath '~temp/testtemp/non_existent_file'
 assert. 2 -: >{.cderx ''
 
-assert. _1 ~: h=: fcreate <'testtemp\test.jnk'
+assert. _1 ~: h=: fcreate <jpath '~temp/testtemp/test.jnk'
 
 s=: 'boustrophedonic paracletic kerygmatic'
 assert. 1 -: s fwrite h
@@ -82,25 +83,25 @@ assert. (i+#t) -: fsize h
 assert. ((i{.s),t) -: fread h
 assert. 1 -: fclose h
 
-assert. 1 -: fcreatedir <'testtemp\tempdir'
+assert. 1 -: fcreatedir <jpath '~temp/testtemp/tempdir'
 
-assert. (<'testtemp\test.jnk') fcopyto <'testtemp\test1.jnk'
-assert. _1 ~: h=: fopen <'testtemp\test1.jnk'
+assert. (<jpath '~temp/testtemp/test.jnk') fcopyto <jpath '~temp/testtemp/test1.jnk'
+assert. _1 ~: h=: fopen <jpath '~temp/testtemp/test1.jnk'
 assert. ((i{.s),t) -: fread h
 assert. 1 -: fclose h
 
-assert. (<'testtemp\test1.jnk') fmoveto <'testtemp\tempdir\test2.jnk'
-assert. _1 ~: h=: fopen <'testtemp\tempdir\test2.jnk'
+assert. (<jpath '~temp/testtemp/test1.jnk') fmoveto <jpath '~temp/testtemp/tempdir/test2.jnk'
+assert. _1 ~: h=: fopen <jpath '~temp/testtemp/tempdir/test2.jnk'
 assert. ((i{.s),t) -: fread h
 assert. 1 -: fclose h
 
-assert. 1 -: fdelete <'testtemp\test.jnk'
+assert. 1 -: fdelete <jpath '~temp/testtemp/test.jnk'
 
-assert. 0 -: fdeletedir <'testtemp\tempdir'
+assert. 0 -: fdeletedir <jpath '~temp/testtemp/tempdir'
 assert. (>{.cderx '') e. 5 145
-assert. 1 -: fdelete <'testtemp\tempdir\test2.jnk'
-assert. 1 -: fdeletedir <'testtemp\tempdir'
-assert. 1 -: fdeletedir <'testtemp'
+assert. 1 -: fdelete <jpath '~temp/testtemp/tempdir/test2.jnk'
+assert. 1 -: fdeletedir <jpath '~temp/testtemp/tempdir'
+assert. 1 -: fdeletedir <jpath '~temp/testtemp'
 end.
 1
 )
@@ -116,13 +117,36 @@ t -: ($t)$15!:1 (15!:14 <'t'),0,(*/$t),3!:0 t
 
 'domain error' -: 15!:6  etx <'test'
 'domain error' -: 15!:6  etx ;:'t test'
+'value error' -: 15!:6  etx <u:'test'
+'value error' -: 15!:6  etx u:&.> ;:'t test'
+'value error' -: 15!:6  etx <10&u:'test'
+'value error' -: 15!:6  etx 10&u:&.> ;:'t test'
+'value error' -: 15!:6  etx s:@<"0&.> <'test'
+'value error' -: 15!:6  etx <"0@s: <'test'
+NB. ??? sometimes ill-formed name
+NB. 'value error' -: 15!:6  etx s:@<"0&.> ;:'t test'
+NB. 'value error' -: 15!:6  etx <"0@s: ;:'t test'
 'domain error' -: 15!:14 etx <'test'
 'domain error' -: 15!:14 etx ;:'t test'
+'value error' -: 15!:14 etx <u:'test'
+'value error' -: 15!:14 etx u:&.> ;:'t test'
+'value error' -: 15!:14 etx <10&u:'test'
+'value error' -: 15!:14 etx 10&u:&.> ;:'t test'
+'value error' -: 15!:14 etx s:@<"0&.> <'test'
+'value error' -: 15!:14 etx <"0@s: <'test'
+NB. ??? sometimes ill-formed name
+NB. 'value error' -: 15!:14 etx s:@<"0&.> ;:'t test'
+NB. 'value error' -: 15!:14 etx <"0@s: ;:'t test'
 
 'value error'  -: 15!:6  etx <'undefinedname'
 'value error'  -: 15!:6  etx ;:'t undefinedname'
 'value error'  -: 15!:14 etx <'undefinedname'
 'value error'  -: 15!:14 etx ;:'t undefinedname'
+
+NB. 0 ~: jt=: 15!:19 ''
+NB. 0 = 15!:20 'nosuchlibrary'
+NB. 0 ~: h=: 15!:20 >IFUNIX{ 'wsock32' ; unxlib 'c'
+NB. 0 ~: h 15!:21 'gethostname'
 
 4!:55 ;:'CREATE_NEW FILE_BEGIN FILE_CURRENT FILE_END GENERIC_READ '
 4!:55 ;:'GENERIC_WRITE OPEN_EXISTING '
@@ -130,6 +154,6 @@ t -: ($t)$15!:1 (15!:14 <'t'),0,(*/$t),3!:0 t
 4!:55 ;:'Fsetptr Fsize Fwrite '
 4!:55 ;:'cderx fclose fcopyto fcreate fcreatedir fdelete fdeletedir fmoveto '
 4!:55 ;:'fopen fread fsetptr fsize fwrite '
-4!:55 ;:'h i pc s t test'
+4!:55 ;:'h i jt pc s sbp t test winset'
 
 

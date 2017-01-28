@@ -70,9 +70,11 @@ f=: 4 : 0
 'domain error' -: 3j4   |. etx $. i.2 3 4
 'domain error' -: 3r4   |. etx $. i.2 3 4
 'domain error' -: '345' |. etx $. i.2 3 4
+'domain error' -: (u:'345') |. etx $. i.2 3 4
+'domain error' -: (10&u:'345') |. etx $. i.2 3 4
 'domain error' -: (<3 4)|. etx $. i.2 3 4
 
 'length error' -: (i.4) |. etx $. i.2 3 4
 
 
-4!:55 ;:'a f i r s x y'
+4!:55 ;:'a c d f i r s x y'

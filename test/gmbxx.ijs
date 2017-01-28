@@ -125,10 +125,10 @@ NB. 9!: -----------------------------------------------------------------
 q=: x=: 9!:8 ''
 9!:9 q
 mbxcheck_jmf_ q
-
 k=: 9!:42 ''
 
 9!:43 ]1
+
 q=: x=: 9!:44 ''
 (mbxcheck_jmf_ q), x -: q
 (mbxcheck_jmf_ q), 9!:45 q
@@ -158,26 +158,12 @@ NB. see gdll.ijs
 
 load'dll'
 
-3 : 0 ''
-if. 0=4!:0<'libtsdll' do. 1[lib=: libtsdll return. end.
-t=. >IF64{'32';'64'
-s=. >(UNAME-:'Darwin'){'.so';'.dylib'
-if. IFUNIX do.
- lib=: jpath '~home/dev/j/tsdll/libtsdll',t,s
-else.
- if. IF64 do.
-  lib=: '\dev\j\p_tsdll\release64\tsdll.dll'
- else.
-  lib=: '\dev\j\p_tsdll\release\tsdll.dll'
- end.
-end.
-lib=: lib,' '
-1
-)
+lib=: LIBTSDLL
 
 dcd=: 4 : '(lib,x) cd y'
 
 q=: x=: 1.1;2.2
+NB. comment out the following tests to avoid failure with C_DF=0
 ('ddd d d d' dcd x) -: 'ddd d d d' dcd q
 mbxcheck_jmf_ q
 

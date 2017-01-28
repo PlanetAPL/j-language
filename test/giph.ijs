@@ -1,5 +1,8 @@
 NB. prehashed i. family of functions ------------------------------------
 
+randuni''
+
+
 g=: 4 : 0
  xx=: y{~(1e4,x) ?@$ #y 
  yy=: y{~(1e3,x) ?@$ #y
@@ -40,12 +43,31 @@ h=: 4 : 0
 2 3 g a.
 37  g a.
 
+''  g adot1
+2 3 g adot1
+37  g adot1
+
+''  g adot2
+2 3 g adot2
+37  g adot2
+
+''  g sdot0
+2 3 g sdot0
+37  g sdot0
+
 ''  g u: 1000 ?@# 256
 2 3 g u: 1000 ?@# 256
 13  g u: 1000 ?@# 256
 ''  g u: 1000 ?@# 65536
 2 3 g u: 1000 ?@# 65536
 13  g u: 1000 ?@# 65536
+
+''  g 10&u: 1000 ?@# 256
+2 3 g 10&u: 1000 ?@# 256
+13  g 10&u: 1000 ?@# 256
+''  g 10&u: RAND32 1000 ?@# C4MAX
+2 3 g 10&u: RAND32 1000 ?@# C4MAX
+13  g 10&u: RAND32 1000 ?@# C4MAX
 
 ''  g 1000 ?@$ 0
 2 3 g 1000 ?@$ 0
@@ -68,8 +90,19 @@ h=: 4 : 0
 ''  g ;:'Cogito, ergo sum. 4 20 and 10 years ago'
 1 2 g ;:'Cogito, ergo sum. 4 20 and 10 years ago'
 
-''  g s: ' Cogito ergo sum 4 20 and 10 years ago kakistocracy'
+''  g (u:&.>) ;:'Cogito, ergo sum. 4 20 and 10 years ago'
+1 2 g (u:&.>) ;:'Cogito, ergo sum. 4 20 and 10 years ago'
+
+''  g (10&u:&.>) ;:'Cogito, ergo sum. 4 20 and 10 years ago'
+1 2 g (10&u:&.>) ;:'Cogito, ergo sum. 4 20 and 10 years ago'
+
+''  g s:@<"0&.> ;:'Cogito, ergo sum. 4 20 and 10 years ago'
+''  g <"0@s: ;:'Cogito, ergo sum. 4 20 and 10 years ago'
+1 2 g s:@<"0&.> ;:'Cogito, ergo sum. 4 20 and 10 years ago'
+1 2 g <"0@s: ;:'Cogito, ergo sum. 4 20 and 10 years ago'
+
 2 3 g s: ":&.> 20 ?@$1000
+
 
 ''  g      1000 ?@$ m=: 1e1
 ''  g m -~ 1000 ?@$ 2*m
@@ -109,8 +142,7 @@ f=: x&i.
 'length error' -: (i.3 4)&i. etx i.5
 'length error' -: (i.3 4)&i. etx i.2 5
 
-
-4!:55 ;:'f fedot fico fidot g h m ss x xx yy'
+4!:55 ;:'adot1 adot2 sdot0 f fedot fico fidot g h m ss x xx yy'
 
 
  

@@ -226,6 +226,10 @@ _ _ _ -: asdfnotexist b. 0
 'domain error' -: - b. etx _                
 'domain error' -: ^ b. etx 0.5
 
+u =. > >: :. l
+l =. > >: :. u
+'domain error' -: u b. etx _1
+
 
 NB. n b. inverse --------------------------------------------------------
 
@@ -243,6 +247,6 @@ x -: ]&.(28 b.&12345) x
 'domain error' -: ex '12345&(28 b.) b. _1'
 
 
-4!:55 ;:'B d f g g0 g1 g2 N p test x xx y yy'
+4!:55 ;:'B d f g g0 g1 g2 l N p test u x xx y yy'
 
 

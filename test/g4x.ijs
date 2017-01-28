@@ -42,6 +42,10 @@ _1       -: jnc <'asflkjasasdf'
 _2       -: jnc <'+*abc'
 _2       -: jnc <'abc\def'
 
+a =: 18!:3 ''
+_1       -: jnc <'undefname__a'
+'' [ 18!:55 a
+_2       -: jnc <'undefname__a'
 
 nounx =: 2
 verbx =: +/ . *
@@ -217,6 +221,7 @@ _2 -: jnc    <''
 'rank error'      -: scind etx <3 4$'xab'
 'rank error'      -: scind etx <,:'xab'
 
+ 0 < x =: 3 : '4!:4 <y' 'y'
 
 NB. locales -------------------------------------------------------------
 

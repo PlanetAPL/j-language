@@ -13,14 +13,25 @@ t -: [&.>: t=._1e9+?2 3 4$2e9
 
 'domain error' -: >: etx 'abc'    
 'domain error' -: >: etx <'abc'     
+'domain error' -: >: etx u:'abc'    
+'domain error' -: >: etx <u:'abc'     
+'domain error' -: >: etx 10&u:'abc'    
+'domain error' -: >: etx <10&u:'abc'     
 
 
 NB. x>:y ----------------------------------------------------------------
 
 1 0 1 1 -: 0 0 1 1 >: 0 1 0 1
 
+NB. symbol
+1 1 0 1 1 0 -: (s:@<"0 'cbaCBA') >: s:@<"0 'abcABC'
+
 'domain error' -: 'abc' >: etx 3 4 5 
 'domain error' -: 'abc' >:~etx 3 4 5  
+'domain error' -: (u:'abc') >: etx 3 4 5 
+'domain error' -: (u:'abc') >:~etx 3 4 5  
+'domain error' -: (10&u:'abc') >: etx 3 4 5 
+'domain error' -: (10&u:'abc') >:~etx 3 4 5  
 'domain error' -: 3j4   >: etx 3 4 5  
 'domain error' -: 3j4   >:~etx 3 4 5    
 'domain error' -: (<34) >: etx 3 4 5      

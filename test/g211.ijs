@@ -1,7 +1,7 @@
 NB. $.y -----------------------------------------------------------------
 
 f=: 3 : 0
- (scheck s), y -: $.^:_1 s=: $. y
+ (scheck s), y -: $.^:_1 s=. $. y
 )
 
 f x=:   ?     13$2
@@ -24,7 +24,7 @@ f x=:j./?2 11 13 4$10
 f x=:    2 11 13 4$-~1j2
 
 f=: 4 : 0
- (scheck s), y -: $.^:_1 s=: (2;x)$. y
+ (scheck s), y -: $.^:_1 s=. (2;x)$. y
 )
 
 d=: 11 3 5 7 2$0
@@ -44,6 +44,8 @@ c f&> <($d)$-~0j1
 'domain error' -: $. etx 2 3r7
 
 'nonce error'  -: $. etx 3 4$'a'
+'domain error' -: $. etx 3 4$u:'a'
+'domain error' -: $. etx 3 4$10&u:'a'
 'nonce error'  -: $. etx <"0 i.2 3
 
 
@@ -69,6 +71,8 @@ _7&$.  ieq ( 7&$.)
 _8&$.  ieq ( 8&$.)
 
 'domain error' -: 'a'  $. etx 3 4 5
+'domain error' -: (u:'a')  $. etx 3 4 5
+'domain error' -: (10&u:'a')  $. etx 3 4 5
 'domain error' -: 3.5  $. etx 3 4 5
 'domain error' -: 3j5  $. etx 3 4 5
 'domain error' -: 3r5  $. etx 3 4 5
@@ -92,6 +96,10 @@ scheck@(1&$.)"(1) 3 5 7 11;"1 ,/(perm 4){"(2 1) 4 comb 4
 
 'domain error' -: 1$. etx 'abc'
 'domain error' -: 1$. etx 'abc';0 1;0
+'domain error' -: 1$. etx u:'abc'
+'domain error' -: 1$. etx (u:'abc');0 1;0
+'domain error' -: 1$. etx 10&u:'abc'
+'domain error' -: 1$. etx (10&u:'abc');0 1;0
 'domain error' -: 1$. etx (<2 3 4);0 1;0
 'domain error' -: 1$. etx (>IF64{3e9 4;3e19 4);0 1;0
 'domain error' -: 1$. etx 2 3 4;0 1;2x
@@ -112,6 +120,8 @@ scheck@(1&$.)"(1) 3 5 7 11;"1 ,/(perm 4){"(2 1) 4 comb 4
 'index error'  -: 1$. etx 2 3 4;0 0;0
 
 'nonce error'  -: 1$. etx 2 3 4;0 1;' '
+'domain error' -: 1$. etx 2 3 4;0 1;u:' '
+'domain error' -: 1$. etx 2 3 4;0 1;10&u:' '
 'nonce error'  -: 1$. etx 2 3 4;0 1;<a:
 
 
@@ -240,7 +250,7 @@ y=: $. x
 NB. 4$.y ----------------------------------------------------------------
 
 f=: 3 : 0
- yy=. $. y
+ yy=: $. y
  i=. 4$.yy
  assert. (#i) -: #5$.yy
  assert. ({:$i) = #2$.yy
@@ -274,7 +284,7 @@ g=: 4 $. $.
 NB. 5$.y ----------------------------------------------------------------
 
 f=: 3 : 0
- yy=. $. y
+ yy=: $. y
  x =. 5$.yy
  assert. (type x) -: type y
  assert. (type x) -: type 3$.yy
@@ -290,6 +300,8 @@ f j./o.?2 45$20
 
 'domain error' -: 5 $.etx 0 1 
 'domain error' -: 5 $.etx 'abc'
+'domain error' -: 5 $.etx u:'abc'
+'domain error' -: 5 $.etx 10&u:'abc'
 'domain error' -: 5 $.etx 0 1 2
 'domain error' -: 5 $.etx 0 1.2 
 'domain error' -: 5 $.etx 0 1j2 
@@ -310,17 +322,17 @@ n -: #@(5&$.) y
 
 NB. 8$.y ----------------------------------------------------------------
 
-f=: 3 : '(*./ scheck s) *. (m*d) -: s=: 8 $. m * (2;y)$.d'
+f=: 3 : '(*./ scheck s) *. (m*d) -: s=. 8 $. m * (2;y)$.d'
 
 d=: ?5 4 6 3 2$3
 m=: ?5 4 6    $2
 c=: ; (i.1+r) <"1@comb&.> r=:#$d
 f&> c
 
-g=: 3 : '(*./ scheck s) *. (110+m*d) -: s=: 8 $. 110 + m * (2;y)$.d'
+g=: 3 : '(*./ scheck s) *. (110+m*d) -: s=. 8 $. 110 + m * (2;y)$.d'
 g&> c
 
-h=: 3 : '(*./ scheck s) *. (3.4+m*d) -: s=: 8 $. 3.4 + m * (2;y)$.d'
+h=: 3 : '(*./ scheck s) *. (3.4+m*d) -: s=. 8 $. 3.4 + m * (2;y)$.d'
 h&> c
 
 
@@ -344,6 +356,6 @@ scheck |.x
 (|.d) -: 5 $. |.x
 (,.(n-1)-|.i) -: 4 $. |. x
 
-4!:55 ;:'a b c d e f g h i ieq m n perm r s x y '
+4!:55 ;:'a b c d e f g h i ieq m n perm r s x y yy '
 
 

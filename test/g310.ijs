@@ -112,6 +112,7 @@ p -: x
 
 NB. : treatment of comments and white space -----------------------------
 
+ws=: 9!:40 ''
 9!:41 ]1  NB. retain comments and whitespace
 
 f1 =: 3 : 0
@@ -241,9 +242,16 @@ NB. : -------------------------------------------------------------------
 'rank error'   -: ex '3 : (2 3 4$''a'')'
 'rank error'   -: ex '2 : (2 3$<''a'')'
 
-'syntax error' -: (3 : '+') etx 4
-
-
+'noun result was required' -: (3 : '+') etx 4
+f =: 3 : 0
+r =. y + 5
+y + undefname
+if. 0: y -: 6 do.
+  r =. r + 1
+end.
+)
+'|noun result was required: f|       y+undefname' -: efx 'f 4'
+ 
 NB. : empty defn --------------------------------------------------------
 
 f=: 3 : ''
@@ -291,9 +299,52 @@ f3 =: 4 : 'x+y'
 'domain error' -: (+ ~. -) etx 1 0
 'domain error' -: (~. -)   etx 1 0
 
+NB. : detection of x y etc.
 
-4!:55 ;:'a ar det dyad eq f f0 f1 f2 f3 f4'
+a =: 1 : 0
+f__u y
+)
+f =: -
+_5 -: (<'base') a 5
+
+a =: 1 : 0
+f__y m
+)
+_5 -: 5 a <'base'
+
+c =: 2 : 0
+f__u y
+)
+f =: -
+_5 -: (<'base') c [: 5
+
+c =: 2 : 0
+:
+x f__u y
+)
+f =: -
+2 -: 7 (<'base') c [: 5
+
+svxy =: 9!:48''
+9!:49 (1)
+c =: 2 : 0
+f__u y.
+)
+f =: -
+_5 -: (<'base') c [: 5
+
+c =: 2 : 0
+:
+x. f__u 5
+)
+f =: -
+2 -: 7 (<'base') c [: 5
+
+9!:49 svxy
+9!:41 ws
+
+4!:55 ;:'a ar c det dyad eq f f0 f1 f2 f3 f4'
 4!:55 ;:'f4a f5 f5a f6 f6a f6b f6c f7'
-4!:55 ;:'minors monad nl p q Tv x'
+4!:55 ;:'minors monad nl p q svxy Tv ws x'
 
 

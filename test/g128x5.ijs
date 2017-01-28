@@ -36,14 +36,13 @@ NB. 128!:5 and mapped boxed arrays --------------------------------------
 
 0!:0 <testpath,'gmbx.ijs'
 
-r=: x=: 1 2 3 ; _. ; 3j4 _. ; 'abc'
+r=: x=: 1 2 3 ; _. ; 3j4 _. ; (] , <@(s:"0)) 'abc' ; (u: 128+a.i. 'ABC') ; (10&u: 65536+a.i. 'Abc')
 (isnan x) -: isnan r
 
-r=: x=: (5!:1 <'mean') ; _. ; (<<<3j4 _.) ; 'abc'
+r=: x=: (5!:1 <'mean') ; _. ; (<<<3j4 _.) ; (] , <@(s:"0)) 'abc' ; (u: 128+a.i. 'ABC') ; (10&u: 65536+a.i. 'Abc')
 (isnan x) -: isnan r
 
 0 = unmap_jmf_ 'q'
 0 = unmap_jmf_ 'r'
-
 
 4!:55 ;:'b f f1 g i isnan mean q r x'

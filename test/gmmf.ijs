@@ -8,7 +8,7 @@ fread =: 1!:1
 fwrite=: 1!:2
 ferase=: 1!:55
 
-f0 =: <jpath '~temp\t.txt'
+f0 =: <jpath '~temp/t.txt'
 
 t=: 'testing testing 1 2 3'  
 t fwrite f0
@@ -38,7 +38,7 @@ abc -: t
 
 ferase f0
 
-f=: <jpath '~temp\jdata.jmf'
+f=: <jpath '~temp/jdata.jmf'
 1 [ createjmf_jmf_ f,<1000  NB. 1000 bytes for data
 t=: fdir f
 1 = #t

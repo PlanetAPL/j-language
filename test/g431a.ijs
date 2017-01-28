@@ -1,4 +1,7 @@
 NB. f/. f\  f\. models --------------------------------------------------
+
+randuni''
+
 en     =: #@]
 em     =: (en >.@% 1&>.@|@[)`(en 0&>.@>:@- [) @. (0&<:@[)
 kay    =: en`em @. (0&<@[)
@@ -35,6 +38,24 @@ k (+./\. -: +./ bsd) a  [ k=:_4+?11
 
 NB. literal
 a=:a.{~32+?11 5$95
+k (<\.   -: < bsd) a    [ k=:_4+?11
+k (<\.   -: < bsd) ,a   [ k=:_4+?11
+k (]\.   -: ] bsd) a    [ k=:_4+?11
+
+NB. literal2
+a=:adot1{~32+?11 5$95
+k (<\.   -: < bsd) a    [ k=:_4+?11
+k (<\.   -: < bsd) ,a   [ k=:_4+?11
+k (]\.   -: ] bsd) a    [ k=:_4+?11
+
+NB. literal4
+a=:adot2{~32+?11 5$95
+k (<\.   -: < bsd) a    [ k=:_4+?11
+k (<\.   -: < bsd) ,a   [ k=:_4+?11
+k (]\.   -: ] bsd) a    [ k=:_4+?11
+
+NB. symbol
+a=:sdot0{~32+?11 5$95
 k (<\.   -: < bsd) a    [ k=:_4+?11
 k (<\.   -: < bsd) ,a   [ k=:_4+?11
 k (]\.   -: ] bsd) a    [ k=:_4+?11
@@ -84,8 +105,8 @@ testa=: 1 : 0
 )
 
 t=: 0 1; (100 ?@$ 1e9) ; (128 %~ 100 ?@$ 1e4); (100 ?@$ 1000x) ; (%/0 1x + 2 100 ?@$ 1000)
-<. testa&> t
->. testa&> t
+<. testa&> t , < sdot0{~ 100 ?@$ #sdot0
+>. testa&> t , < sdot0{~ 100 ?@$ #sdot0
 +  testa&> t , < j./ 2 100 ?@$ 1000
 *  testa&> t , < j./ 2 100 ?@$ 1000
 +. testa&> 0 1; 100 ?@$ 1000
@@ -106,6 +127,6 @@ testb"0 ] 22 25
 testb"0 ] 16 17 19 21 23 31
 
 
-4!:55 ;:'a base bs bsd em en f iind infix k kay key ob oind omask osub outfix'
-4!:55 ;:'prefix sd seg suffix t testb'
+4!:55 ;:'a adot1 adot2 sdot0 base bs bsd em en f iind infix k kay key ob oind omask osub outfix'
+4!:55 ;:'prefix sd seg suffix t testa testb'
 

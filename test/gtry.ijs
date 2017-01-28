@@ -30,6 +30,8 @@ fd =: 3 : 0
 
 (3+y) -: (x=:?100) fd (y=:?100)
 (7+x) -: (x=:?100) fd 'triskaidekaphobia'
+(7+x) -: (x=:?100) fd u:'triskaidekaphobia'
+(7+x) -: (x=:?100) fd 10&u:'triskaidekaphobia'
 'x and y are both bad' -: 'foo' fd 'bar'
 
 write =: 1!:2
@@ -315,6 +317,105 @@ t=: 0 : 0
 )
 
 'control error' -: ex '3 : t'    NB. catcht nested in try
+
+t =: 3 : 0  NB. continue. in try.
+y =. y , 'a'
+for_s. 'bc' do.
+  y =. y , s
+  try.
+    y =. y , 'd'
+    continue.
+    y =. y , 'e'
+  catch.
+    y =. y , 'f'
+  end.
+  y =. y , 'g'
+end.
+y , 'h'
+)
+'abdcdh'-: t ''
+
+t =: 3 : 0  NB. T block ending in nonnoun: if.
+y =. y , 'a'
+try.
+y =. y , 'b'
+if. (y =. y , 'c') , undefname do. y =. y , 'd' end.
+y =. y , 'e'
+catch.
+y =. y , 'f'
+end.
+y , 'g'
+)
+'abcfg' -: t''
+t =: 3 : 0  NB. T block ending in nonnoun
+y =. y , 'a'
+if. (y =. y , 'c') , undefname do. y =. y , 'd' end.
+y =. y , 'e'
+y , 'g'
+)
+'noun result was required' -: ex 't$0'
+
+t =: 3 : 0  NB. T block ending in nonnoun: for.
+y =. y , 'a'
+try.
+y =. y , 'b'
+for. (y =. y , 'c') , undefname do. y =. y , 'd' end.
+y =. y , 'e'
+catch.
+y =. y , 'f'
+end.
+y , 'g'
+)
+'abcfg' -: t''
+t =: 3 : 0  NB. T block ending in nonnoun
+y =. y , 'a'
+for. (y =. y , 'c') , undefname do. y =. y , 'd' end.
+y =. y , 'e'
+y , 'g'
+)
+'noun result was required' -: ex 't$0'
+
+t =: 3 : 0  NB. T block ending in nonnoun: select.
+y =. y , 'a'
+try.
+y =. y , 'b'
+select. (y =. y , 'c') , undefname case. y =. y , 'h' do. y =. y , 'd' end.
+y =. y , 'e'
+catch.
+y =. y , 'f'
+end.
+y , 'g'
+)
+'abcfg' -: t''
+t =: 3 : 0  NB. T block ending in nonnoun
+y =. y , 'a'
+select. (y =. y , 'c') , undefname case. y =. y , 'h' do. y =. y , 'd' end.
+y =. y , 'e'
+y , 'g'
+)
+'noun result was required' -: ex 't$0'
+
+
+t =: 3 : 0  NB. T block ending in nonnoun: case.
+y =. y , 'a'
+try.
+y =. y , 'b'
+select. y =. y , 'h' case. (y =. y , 'c') , undefname do. y =. y , 'd' end.
+y =. y , 'e'
+catch.
+y =. y , 'f'
+end.
+y , 'g'
+)
+'abhcfg' -: t''
+t =: 3 : 0  NB. T block ending in nonnoun
+y =. y , 'a'
+select. y =. y , 'h' case. (y =. y , 'c') , undefname do. y =. y , 'd' end.
+y =. y , 'e'
+y , 'g'
+)
+'noun result was required' -: ex 't$0'
+
 
 
 4!:55 ;:'erase f fa fb fc fd fe ff fg fh fi fj goo sub t write x y'

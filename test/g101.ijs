@@ -1,11 +1,11 @@
 NB. +.y  ----------------------------------------------------------------
 
-f =. 9 11&o."0"_
+f =: 9 11&o."0"_
 
 (f -: +.) r.?10 20$1000
 (f -: +.) 0.1*_500+?200$1000
 
-a -: [&.+. a=.0.1*_50j_50+j.&?~100$100
+a -: [&.+. a=:0.1*_50j_50+j.&?~100$100
 
 0 0   -: +. 0
 1 0   -: +. 1
@@ -17,6 +17,13 @@ a -: [&.+. a=.0.1*_50j_50+j.&?~100$100
 
 'domain error' -: +. etx 'abc'
 'domain error' -: +. etx <'abc'
+'domain error' -: +. etx u:'abc'
+'domain error' -: +. etx <u:'abc'
+'domain error' -: +. etx 10&u:'abc'
+'domain error' -: +. etx <10&u:'abc'
+'domain error' -: +. etx s:@<"0 'abc'
+'domain error' -: +. etx s:@<"0&.> <'abc'
+'domain error' -: +. etx <"0@s: <'abc'
 
 
 NB. x+.y  ---------------------------------------------------------------
@@ -38,6 +45,28 @@ y=: j./ _5000 + 2 10000 ?@$ 10000
 'domain error' -: 4     +.~etx <'abc'
 'domain error' -: 'j'   +. etx <'abc'
 'domain error' -: 'j'   +.~etx <'abc'
+'domain error' -: (u:'abc') +. etx 4
+'domain error' -: (u:'abc') +.~etx 4
+'domain error' -: 4     +. etx <u:'abc'
+'domain error' -: 4     +.~etx <u:'abc'
+'domain error' -: 'j'   +. etx <u:'abc'
+'domain error' -: 'j'   +.~etx <u:'abc'
+'domain error' -: (10&u:'abc') +. etx 4
+'domain error' -: (10&u:'abc') +.~etx 4
+'domain error' -: 4     +. etx <10&u:'abc'
+'domain error' -: 4     +.~etx <10&u:'abc'
+'domain error' -: 'j'   +. etx <10&u:'abc'
+'domain error' -: 'j'   +.~etx <10&u:'abc'
+'domain error' -: (s:@<"0 'abc') +. etx 4
+'domain error' -: (s:@<"0 'abc') +.~etx 4
+'domain error' -: 4     +. etx s:@<"0&.> <'abc'
+'domain error' -: 4     +. etx <"0@s: <'abc'
+'domain error' -: 4     +.~etx s:@<"0&.> <'abc'
+'domain error' -: 4     +.~etx <"0@s: <'abc'
+'domain error' -: 'j'   +. etx s:@<"0&.> <'abc'
+'domain error' -: 'j'   +. etx <"0@s: <'abc'
+'domain error' -: 'j'   +.~etx s:@<"0&.> <'abc'
+'domain error' -: 'j'   +.~etx <"0@s: <'abc'
 
 'length error' -: 0 1   +. etx 0 1 0
 'length error' -: 0 1   +.~etx 5 6 7
@@ -57,11 +86,11 @@ gcd =: 3 : 0    NB. (x+.y)=+/(x,y)*x gcd y
  }.n
 )
 
-init =. , ,. =@i.@2:
-iter =. {: ,: {. - {: * <.@%&{./
-gcd1 =. (}.@{.) @ (iter^:(*@{.@{:)^:_) @ init
+init =: , ,. =@i.@2:
+iter =: {: ,: {. - {: * <.@%&{./
+gcd1 =: (}.@{.) @ (iter^:(*@{.@{:)^:_) @ init
 
-(+./ -: [ +/ .* gcd /)"1 x=.?3 10 2$100
+(+./ -: [ +/ .* gcd /)"1 x=:?3 10 2$100
 (+./ -: [ +/ .* gcd1/)"1 x
 
 4!:55 ;:'a f gcd gcd1 init iter x y'

@@ -2,6 +2,10 @@ NB. -y ------------------------------------------------------------------
 
 'domain error' -: - etx 'abc'
 'domain error' -: - etx ;:'sui generis'
+'domain error' -: - etx u:'abc'
+'domain error' -: - etx u:&.> ;:'sui generis'
+'domain error' -: - etx 10&u:'abc'
+'domain error' -: - etx 10&u:&.> ;:'sui generis'
 'domain error' -: - etx <i.2 3
 
 
@@ -26,6 +30,20 @@ _1 -: 3 - 4
 'domain error' -: 'abc' -~etx 4
 'domain error' -: 4     - etx <'abc'
 'domain error' -: 4     -~etx <'abc'
+'domain error' -: (u:'abc') - etx 4
+'domain error' -: (u:'abc') -~etx 4
+'domain error' -: 4     - etx <u:'abc'
+'domain error' -: 4     -~etx <u:'abc'
+'domain error' -: (10&u:'abc') - etx 4
+'domain error' -: (10&u:'abc') -~etx 4
+'domain error' -: 4     - etx <10&u:'abc'
+'domain error' -: 4     -~etx <10&u:'abc'
+'domain error' -: (s:@<"0 'abc') - etx 4
+'domain error' -: (s:@<"0 'abc') -~etx 4
+'domain error' -: 4     - etx s:@<"0&.> <'abc'
+'domain error' -: 4     - etx <"0@s: <'abc'
+'domain error' -: 4     -~etx s:@<"0&.> <'abc'
+'domain error' -: 4     -~etx <"0@s: <'abc'
 
 'length error' -: 3 4   - etx 5 6 7
 'length error' -: 3 4   -~etx 5 6 7
@@ -41,8 +59,8 @@ test  =. - 0&=@:- -&((o.0)&+)
 testa =. (-/   0&=@:- -/  @((o.0)&+))@,"0
 testb =. (-/\  0&=@:- -/\ @((o.0)&+))@,"0
 testc =. (-/\. 0&=@:- -/\.@((o.0)&+))@,"0
-x     =. IF64{::  2147483647;  9223372036854775807
-y     =. IF64{:: _2147483648; _9223372036854775808
+x     =: IF64{::  2147483647;  9223372036854775807
+y     =: IF64{:: _2147483648; _9223372036854775808
 
 8 4 4 4 4 = type&> _2 _1 0 1 2-&.> x
 8 8 4 4 4 = type&> _2 _1 0 1 2-&.>~x

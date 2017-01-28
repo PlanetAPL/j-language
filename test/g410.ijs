@@ -39,9 +39,9 @@ __ 0 _ 0 -: ! _300+0.5*i.4
 'domain error' -: ! etx 'abc'
 'domain error' -: ! etx <'abc'
 
-'limit error'  -: ! etx   - 2    +2^53
-'limit error'  -: ! etx {.- 2 0j1+2^53
-
+NB. following limit error can be _ on some platforms (linux j32)
++./('limit error';_) = < ! etx   - 2    +2^53
++./('limit error';_) = < ! etx {.- 2 0j1+2^53
 
 NB. Gamma Function ------------------------------------------------------
 

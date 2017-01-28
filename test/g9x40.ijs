@@ -1,14 +1,16 @@
 NB. 9!:40 and 9!:41 -----------------------------------------------------
 
-t=: 9!:40 ''
-1 -: type t
-0 = $#t
+ws=: 9!:40 ''
+1 -: type ws
+0 = $#ws
 
 'rank error'   -: 9!:40 etx 0
 'rank error'   -: 9!:40 etx 1
 
 'length error' -: 9!:40 etx 1 2
 'length error' -: 9!:40 etx 'abc'
+'length error' -: 9!:40 etx u:'abc'
+'length error' -: 9!:40 etx 10&u:'abc'
 
 'rank error'   -: 9!:41 etx ,0
 'rank error'   -: 9!:41 etx ,1
@@ -152,9 +154,9 @@ x=: (i{.t),(3+i)}.t [ i=: ('   :' E. t)i.1
 (5!:2 <'f') -: 2;(,':');];._2 x
 (5!:5 <'f') -: '2 : 0',lf,x,')'
 
-9!:41 ]0
+9!:41 ws
 
 
-4!:55 ;:'f i lf nn t x'
+4!:55 ;:'f i lf nn t x ws'
 
 

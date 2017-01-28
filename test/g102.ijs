@@ -25,6 +25,9 @@ lr  =: 1 : '5!:5 <''x'''
 7 -: +: 3.5
 
 'domain error' -: +: etx 'abc'
+'domain error' -: +: etx u:'abc'
+'domain error' -: +: etx 10&u:'abc'
+'domain error' -: +: etx s:@<"0 'abc'
 'domain error' -: +: etx 3;4 5
 'domain error' -: +: etx <!.0?5$2
 
@@ -48,6 +51,12 @@ NB. x+:y ----------------------------------------------------------------
 
 'domain error' -: 0 1 +: etx 'ab'
 'domain error' -: 0 1 +:~etx 'ab'
+'domain error' -: 0 1 +: etx u:'ab'
+'domain error' -: 0 1 +:~etx u:'ab'
+'domain error' -: 0 1 +: etx 10&u:'ab'
+'domain error' -: 0 1 +:~etx 10&u:'ab'
+'domain error' -: 0 1 +: etx s:@<"0 'ab'
+'domain error' -: 0 1 +:~etx s:@<"0 'ab'
 'domain error' -: 0 1 +: etx 2
 'domain error' -: 0 1 +:~etx 2
 'domain error' -: 0 1 +: etx 3.4  0
@@ -56,6 +65,14 @@ NB. x+:y ----------------------------------------------------------------
 'domain error' -: 0 1 +:~etx 0j1  1
 'domain error' -: 1   +: etx <'asfd'
 'domain error' -: 1   +:~etx <'asfd'
+'domain error' -: 1   +: etx <u:'asfd'
+'domain error' -: 1   +:~etx <u:'asfd'
+'domain error' -: 1   +: etx <10&u:'asfd'
+'domain error' -: 1   +:~etx <10&u:'asfd'
+'domain error' -: 1   +: etx s:@<"0&.> <'asfd'
+'domain error' -: 1   +: etx <"0@s: <'asfd'
+'domain error' -: 1   +:~etx s:@<"0&.> <'asfd'
+'domain error' -: 1   +:~etx <"0@s: <'asfd'
 
 'length error' -: 0 1   +: etx 0 1 0
 'length error' -: 0 1   +:~etx 0 1 0

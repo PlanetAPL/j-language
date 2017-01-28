@@ -15,6 +15,8 @@ a -: c
 
 'domain error' -: rls etx 3.5 
 'domain error' -: rls etx 'a' 
+'domain error' -: rls etx u:'a' 
+'domain error' -: rls etx 10&u:'a' 
 'domain error' -: rls etx <9  
 'domain error' -: rls etx 3j4 
 
@@ -177,7 +179,7 @@ s=:9!:12 ''    NB. system identifier
 (0=#$s), s e. _1 0 1 2 3 4 5 6 7
 
 v=:9!:14 ''    NB. J version
-(1=#$v), *./(_16{.v) e. '0123456789 .:/-'
+(1=#$v), 0=v-.' /-:',Alphanum_j_
 
 
 NB. 9!:16 and 9!:17 -----------------------------------------------------
@@ -288,6 +290,8 @@ t -: 9!:38 ''
 'domain error' -: 9!:39 etx 2 3r4
 'domain error' -: 9!:39 etx 2 3;4
 'domain error' -: 9!:39 etx '23'
+'domain error' -: 9!:39 etx u:'23'
+'domain error' -: 9!:39 etx 10&u:'23'
 'domain error' -: 9!:39 etx _1 3
 
 'rank error'   -: 9!:39 etx 2
@@ -307,6 +311,27 @@ old=: 9!:48 ''
 'spelling error' -: ex 'u.=: +'
 'spelling error' -: ex 'v.=: +'
 9!:49 old
+
+
+NB. 9!:50 and 9!:51 -----------------------------------------------------
+
+NB. old=: 9!:50 ''
+NB. 
+NB. 'length error' -: 9!:50 etx i.4
+NB. 
+NB. 'rank error'   -: 9!:50 etx 4
+NB. 'rank error'   -: 9!:50 etx '4'
+NB. 'rank error'   -: 9!:50 etx i.0 0
+NB. 
+NB. 'domain error' -: 9!:51 etx i.12
+NB. 'domain error' -: 9!:51 etx 3 4.5
+NB. 'domain error' -: 9!:51 etx 3 4j5
+NB. 'domain error' -: 9!:51 etx 3 4r5
+NB. 'domain error' -: 9!:51 etx ;:'es chat o lo gy'
+NB. 
+NB. 'rank error'   -: 9!:51 etx 3 4$'abc'
+NB. 
+NB. 9!:51 old
 
 
 4!:55 ;:'a a12 a6 a9 b boxq boxs c dispq disps '

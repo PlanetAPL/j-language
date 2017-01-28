@@ -118,6 +118,8 @@ d3=: */ @: >: @: (_&q:)
 'domain error' -: (<3)q: etx 123
 
 'domain error' -: 1   q: etx 'a'
+'domain error' -: 1   q: etx u:'a'
+'domain error' -: 1   q: etx 10&u:'a'
 'domain error' -: 1   q: etx 0
 'domain error' -: 1   q: etx _35
 'domain error' -: 1   q: etx 3.5
@@ -128,7 +130,7 @@ d3=: */ @: >: @: (_&q:)
 NB. q: on large integers ------------------------------------------------
 
 f=: 3 : 0
- v=: q: y
+ v=. q: y
  assert. y=*/v
  assert. v -: /:~ v
  assert. (, -: q:)"0 v
@@ -148,7 +150,7 @@ f x=: 1.3e13
 f x=: 252097800629
 
 
-4!:55 ;:'b d0 d1 d2 d3 divisors f g max odometer p pa phi pn primes'
+4!:55 ;:'b d0 d1 d2 d3 divisors f g max n odometer p pa phi pn primes'
 4!:55 ;:'qa qco t2 x y '
 
 

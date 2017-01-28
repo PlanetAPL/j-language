@@ -14,11 +14,44 @@ test 0 3j4
 
 'domain error' -: + etx  'abc'
 'domain error' -: + etx <'abc'
+'domain error' -: + etx  u:'abc'
+'domain error' -: + etx <u:'abc'
+'domain error' -: + etx  10&u:'abc'
+'domain error' -: + etx <10&u:'abc'
+'domain error' -: + etx  s:@<"0 'abc'
+'domain error' -: + etx s:@<"0&.> <'abc'
+'domain error' -: + etx <"0@s: <'abc'
 'domain error' -: + etx <3 4 5
 
 
 NB. x+y -----------------------------------------------------------------
 
+4 = type 5 + ''
+4 = type '' + 5
+1 = type 'a' +. (0$0)
+4 = type 'a' + (0$0)
+1 = type (u:'a') +. (0$0)
+4 = type (u:'a') + (0$0)
+1 = type (10&u:'a') +. (0$0)
+4 = type (10&u:'a') + (0$0)
+1 = type (s:@<"0 'a') +. (0$0)
+4 = type (s:@<"0 'a') + (0$0)
+8 = type '' + 5.5
+16 = type '' + 3j1
+1 = type '' +. 'c'
+4 = type '' + 'c'
+1 = type '' +. u:'c'
+4 = type '' + u:'c'
+1 = type '' +. 10&u:'c'
+4 = type '' + 10&u:'c'
+1 = type '' +. s:@<"0 'c'
+4 = type '' + s:@<"0 'c'
+'length error' -: '' + etx 1000 1000 $ 'abc'
+'length error' -: '' + etx 1000 1000 $ u:'abc'
+'length error' -: '' + etx 1000 1000 $ 10&u:'abc'
+'length error' -: '' + etx 1000 1000 $ s:@<"0 'abc'
+ 
+ 
 4 = type 1234+5678
 4 = type _1234+_5678
 4 = type 2e9
@@ -74,12 +107,40 @@ b=:3j4
 3 4 -: +.3j4
 1j1 -: 5j11 +. 3j7
 
+NB. Errors
+
+'length error' -: 'abc' + etx 4 5  NB. Agreement before domain
 'domain error' -: 'abc' + etx 4
 'domain error' -: 'abc' +~etx 4
 'domain error' -: 4     + etx <'abc'
 'domain error' -: 4     +~etx <'abc'
 'domain error' -: 'j'   + etx <'abc'
 'domain error' -: 'j'   +~etx <'abc'
+'length error' -: (u:'abc') + etx 4 5  NB. Agreement before domain
+'domain error' -: (u:'abc') + etx 4
+'domain error' -: (u:'abc') +~etx 4
+'domain error' -: 4     + etx <u:'abc'
+'domain error' -: 4     +~etx <u:'abc'
+'domain error' -: 'j'   + etx <u:'abc'
+'domain error' -: 'j'   +~etx <u:'abc'
+'length error' -: (10&u:'abc') + etx 4 5  NB. Agreement before domain
+'domain error' -: (10&u:'abc') + etx 4
+'domain error' -: (10&u:'abc') +~etx 4
+'domain error' -: 4     + etx <10&u:'abc'
+'domain error' -: 4     +~etx <10&u:'abc'
+'domain error' -: 'j'   + etx <10&u:'abc'
+'domain error' -: 'j'   +~etx <10&u:'abc'
+'length error' -: (s:@<"0 'abc') + etx 4 5  NB. Agreement before domain
+'domain error' -: (s:@<"0 'abc') + etx 4
+'domain error' -: (s:@<"0 'abc') +~etx 4
+'domain error' -: 4     + etx s:@<"0&.> <'abc'
+'domain error' -: 4     + etx <"0@s: <'abc'
+'domain error' -: 4     +~etx s:@<"0&.> <'abc'
+'domain error' -: 4     +~etx <"0@s: <'abc'
+'domain error' -: 'j'   + etx s:@<"0&.> <'abc'
+'domain error' -: 'j'   + etx <"0@s: <'abc'
+'domain error' -: 'j'   +~etx s:@<"0&.> <'abc'
+'domain error' -: 'j'   +~etx <"0@s: <'abc'
 
 'length error' -: 3 4   + etx 5 6 7
 'length error' -: 3 4   +~etx 5 6 7
@@ -87,6 +148,15 @@ b=:3j4
 'length error' -: 3 4   +~etx i.5 6
 'length error' -: 3 4 5 + etx i.4 3
 'length error' -: 3 4 5 +~etx i.4 3
+
+NB. not instated yet (0$0) -: (i. 0 3) +"1 (i. 0 2)  NB. No error - 0 used for cell result
+NB. not instated yet (0$0) -: (i. 0 3) +"1 2 (i. 0 2 2)  NB. No error - 0 used for cell result
+NB. not instated yet (4 0$0) -: (i. 4 0 3) +"1 2 (i. 4 2 2)  NB. No error - 0 used for cell result
+'length error' -: (i. 0 3) +"1 etx (i. 0 2)
+'length error' -: (i. 0 3) +"1 2 etx (i. 0 2 2)
+'length error' -: (i. 4 0 3) +"1 2 etx (i. 4 2 2)
+'length error' -: (i. 4 0 3) +"1 2 etx (i. 1 2 2)
+'length error' -: (i. 4 0 3) +"1 2 etx (i. 0 2 2)
 
 
 NB. x+y integer overflow handling ---------------------------------------

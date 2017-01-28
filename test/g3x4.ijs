@@ -1,9 +1,9 @@
 NB. 3!:4 ----------------------------------------------------------------
 
-ic =. 3!:4
+ic =: 3!:4
 
-g1 =. -:!.0 (_1&ic)@(1&ic)
-g2 =. -:!.0 (_2&ic)@(2&ic)
+g1 =: -:!.0 (_1&ic)@(1&ic)
+g2 =: -:!.0 (_2&ic)@(2&ic)
 ". > IF64 { 'g3=: 1:' ; 'g3=: -:!.0 (_3&ic)@(3&ic)'
 
 g1 ?2000$32768
@@ -33,13 +33,13 @@ g3 imin,0,imax
 '' -: ( 2+IF64) ic i.0
 '' -: ( 2+IF64) ic ''
 
-(2 ic x) -: 2 ic 1=    x=.(2-2)+?10$2
-(2 ic x) -: 2 ic (o.0)+x=._50+?10$100
-(2 ic x) -: 2 ic (j.0)+x=._50+?10$100
+(2 ic x) -: 2 ic 1=    x=:(2-2)+?10$2
+(2 ic x) -: 2 ic (o.0)+x=:_50+?10$100
+(2 ic x) -: 2 ic (j.0)+x=:_50+?10$100
 
-(1 ic x) -: 1 ic 1=    x=.(2-2)+?10$2
-(1 ic x) -: 1 ic (o.0)+x=._50+?10$100
-(1 ic x) -: 1 ic (j.0)+x=._50+?10$100
+(1 ic x) -: 1 ic 1=    x=:(2-2)+?10$2
+(1 ic x) -: 1 ic (o.0)+x=:_50+?10$100
+(1 ic x) -: 1 ic (j.0)+x=:_50+?10$100
 
  '2&(3!:4)' -: _2&(3!:4) b. _1 
 '_2&(3!:4)' -:  2&(3!:4) b. _1 
@@ -48,6 +48,8 @@ g3 imin,0,imax
 
 'domain error' -:     ic etx 3 4 5
 'domain error' -: '1' ic etx 3 4 5
+'domain error' -: (u:'1') ic etx 3 4 5
+'domain error' -: (10&u:'1') ic etx 3 4 5
 'domain error' -: 1.2 ic etx 3 4 5
 'domain error' -: 1j2 ic etx 3 4 5
 'domain error' -: (<1)ic etx 3 4 5
@@ -55,12 +57,16 @@ g3 imin,0,imax
 ". (-.IF64) # '''domain error'' -: _3 ic etx 8$0{a.'
 
 'domain error' -:  2 ic etx 'abcd0123'
+'domain error' -:  2 ic etx u:'abcd0123'
+'domain error' -:  2 ic etx 10&u:'abcd0123'
 'domain error' -:  2 ic etx (i.12){a.
 'domain error' -:  2 ic etx 1 2 3.4
 'domain error' -:  2 ic etx 1 2 3j4
 'domain error' -:  2 ic etx 1;2 3 4
 
 'domain error' -:  1 ic etx 'abcd0123'
+'domain error' -:  1 ic etx u:'abcd0123'
+'domain error' -:  1 ic etx 10&u:'abcd0123'
 'domain error' -:  1 ic etx (i.12){a.
 'domain error' -:  1 ic etx 1 2 3.4
 'domain error' -:  1 ic etx 1 2 3j4
@@ -83,14 +89,35 @@ g3 imin,0,imax
 
 'rank error'   -:  2 ic etx i.1 4
 'rank error'   -: _2 ic etx 1 4$'a'
+'rank error'   -: _2 ic etx 1 4$u:'a'
+'rank error'   -: _2 ic etx 1 4$10&u:'a'
+'rank error'   -: _2 ic etx 1 4$s:@<"0 'a'
 'rank error'   -:  1 ic etx i.3 4
 'rank error'   -: _1 ic etx 3 4$'abcd'
+'rank error'   -: _1 ic etx 3 4$u:'abcd'
+'rank error'   -: _1 ic etx 3 4$10&u:'abcd'
+'rank error'   -: _1 ic etx 3 4$s:@<"0 'abcd'
 'rank error'   -:  0 ic etx 3 4$'a'
+'rank error'   -:  0 ic etx 3 4$u:'a'
+'rank error'   -:  0 ic etx 3 4$10&u:'a'
+'rank error'   -:  0 ic etx 3 4$s:@<"0 'a'
 
 'length error' -: _2 ic etx 'ab'
 'length error' -: _2 ic etx 'abcdef'
 'length error' -: _1 ic etx 'abc'
 'length error' -:  0 ic etx 'abc'
+'domain error' -: _2 ic etx u:'ab'
+'domain error' -: _2 ic etx u:'abcdef'
+'domain error' -: _1 ic etx u:'abc'
+'domain error' -:  0 ic etx u:'abc'
+'domain error' -: _2 ic etx 10&u:'ab'
+'domain error' -: _2 ic etx 10&u:'abcdef'
+'domain error' -: _1 ic etx 10&u:'abc'
+'domain error' -:  0 ic etx 10&u:'abc'
+'domain error' -: _2 ic etx s:@<"0 'ab'
+'domain error' -: _2 ic etx s:@<"0 'abcdef'
+'domain error' -: _1 ic etx s:@<"0 'abc'
+'domain error' -:  0 ic etx s:@<"0 'abc'
 
 
 4!:55 ;:'g1 g2 g3 ic x'

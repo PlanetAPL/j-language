@@ -1,6 +1,8 @@
 NB. 7!:5 ----------------------------------------------------------------
 
-bp=: (IF64{1 1 4 8 16 4 4 2,:1 1 8 8 16 8 8 2) {~ 1 2 4 8 16 32 65536 131072 i. 3!:0
+randuni''
+
+bp=: (IF64{1 1 4 8 16 4 4 2 4,:1 1 8 8 16 8 8 2 4) {~ 1 2 4 8 16 32 65536 131072 262144 i. 3!:0
 sp=: 7!:5
 f =: 3 : '7!:5 <''y'''
 
@@ -9,7 +11,7 @@ g =: 3 : 0
  z=. w*2                              NB. 2 words for memory management
  z=. z + w*7                          NB. 7 words for non-shape header words
  z=. z + w*r+(-.IF64)*0=2|r=. #$y     NB. shape, pad to doubleword boundary if 32 bits
- z=. z + ((bp y)**/$y) + w*(3!:0 y)e. 1 2 131072  NB. atoms & trailing 0 byte
+ z=. z + ((bp y)**/$y) + w*(3!:0 y)e. 1 2 131072 262144  NB. atoms & trailing 0 word (uses whole word of padding)
  >.&.(2&^.) z
 )
 
@@ -17,46 +19,58 @@ g =: 3 : 0
 (f -: g) 2.3
 (f -: g) 2j3
 (f -: g) 2j3
-(f -: g) u: 'a'
-(f -: g) {.s: ' ab'
+(f -: g) 'a'
+(f -: g) u:'a'
+(f -: g) 10&u:'a'
+(f -: g) {.s: ' a'
 
 (f -: g)@($&    0 1 )"0 ]200+i.4 10
 (f -: g)@($&    'x' )"0 ]200+i.4 10
 (f -: g)@($&(u: 'x'))"0 ]100+i.4 10
+(f -: g)@($&(10&u: 'x'))"0 ]100+i.4 10
 (f -: g)@($&    0 1 )"0 ]160+i.4 10
 (f -: g)@($&    'x' )"0 ]160+i.4 10
 (f -: g)@($&(u: 'x'))"0 ] 80+i.4 10
+(f -: g)@($&(10&u: 'x'))"0 ] 80+i.4 10
 
 (f -: g)@($&    0 1 )"1 ]1,"0 ] 200+i.4 10
 (f -: g)@($&    'x' )"1 ]1,"0 ] 200+i.4 10
 (f -: g)@($&(u: 'x'))"1 ]1,"0 ] 100+i.4 10
+(f -: g)@($&(10&u: 'x'))"1 ]1,"0 ] 100+i.4 10
 (f -: g)@($&    0 1 )"1 ]1,"0 ] 160+i.4 10
 (f -: g)@($&    'x' )"1 ]1,"0 ] 160+i.4 10
 (f -: g)@($&(u: 'x'))"1 ]1,"0 ]  80+i.4 10
+(f -: g)@($&(10&u: 'x'))"1 ]1,"0 ]  80+i.4 10
 
 (f -: g) x=: (?1e4)$1 0
 (f -: g) x=: (?1e4)$2 3
 (f -: g) x=: (?1e4)$2.3
 (f -: g) x=: (?1e4)$2j3
 (f -: g) x=: (?1e4)$2j3
-(f -: g) x=: (?1e4)$u: 'ab'
-(f -: g) x=: (?1e4)$s: ' ab c'
+(f -: g) x=: (?1e4)$'ab'
+(f -: g) x=: (?1e4)$u:'ab'
+(f -: g) x=: (?1e4)$10&u:'ab'
+(f -: g) x=: (?1e4)$s: ' a b'
 
 (f -: g) x=: (1+?100 100)$1 0
 (f -: g) x=: (1+?100 100)$2 3
 (f -: g) x=: (1+?100 100)$2.3
 (f -: g) x=: (1+?100 100)$2j3
 (f -: g) x=: (1+?100 100)$2j3
-(f -: g) x=: (1+?100 100)$u: 'ab'
-(f -: g) x=: (1+?100 100)$s: ' ab c'
+(f -: g) x=: (1+?100 100)$'ab'
+(f -: g) x=: (1+?100 100)$'ab'
+(f -: g) x=: (1+?100 100)$10&u:'ab'
+(f -: g) x=: (1+?100 100)$s: ' a b'
 
 (f -: g) x=: (1+?100 10 50)$1 0
 (f -: g) x=: (1+?100 10 50)$2 3
 (f -: g) x=: (1+?100 10 50)$2.3
 (f -: g) x=: (1+?100 10 50)$2j3
 (f -: g) x=: (1+?100 10 50)$2j3
-(f -: g) x=: (1+?100 10 50)$u: 'ab'
-(f -: g) x=: (1+?100 10 50)$s: ' ab c'
+(f -: g) x=: (1+?100 10 50)$'ab'
+(f -: g) x=: (1+?100 10 50)$u:'ab'
+(f -: g) x=: (1+?100 10 50)$10&u:'ab'
+(f -: g) x=: (1+?100 10 50)$s: ' a b'
 
 (sp ;:'f g sp') -: (sp <'f'),(sp <'g'),sp <'sp'
 
@@ -101,14 +115,15 @@ x=: 2 : 0
 'domain error'    -: 7!:5 etx <i.4
 'domain error'    -: 7!:5 etx <1 2.3 4
 'domain error'    -: 7!:5 etx <1 2j3 4
-'domain error'    -: 7!:5 etx <u: 'abc'
-'domain error'    -: 7!:5 etx <s: ' bc'
+'domain error'    -: 7!:5 etx <10&u:'abc'
+'domain error'    -: 7!:5 etx <s: ' a b c'
 'domain error'    -: 7!:5 etx <<'abc'
 'domain error'    -: 7!:5 etx i.4
 'domain error'    -: 7!:5 etx 1 2.3 4
 'domain error'    -: 7!:5 etx 1 2j3 4
-'domain error'    -: 7!:5 etx u: 'abc'
-'domain error'    -: 7!:5 etx s: ' bc'
+'domain error'    -: 7!:5 etx u:'abc'
+'domain error'    -: 7!:5 etx 10&u:'abc'
+'domain error'    -: 7!:5 etx s: ' a b c'
 
 'rank error'      -: 7!:5 etx <,:'abc'
 
@@ -121,21 +136,48 @@ NB. 7!:5 on mapped arrays -----------------------------------------------
 load'jmf'
 18!:4 <'base'
 1 [ unmap_jmf_ 'q'
-f=: <jpath '~temp\q.jmf'
+f=: <jpath '~temp/q.jmf'
 1 [ createjmf_jmf_ f,<3e5      NB. 3e5 bytes for data
 map_jmf_ (<'q'),f,'';0   NB. map q to jmf file
 '' -: q
 
 (7!:5 <'q') -: 7!:5 <'x' [ q=:x=:     (?1e4)?@$2
 (7!:5 <'q') -: 7!:5 <'x' [ q=:x=: a.{~(?1e4)?@$#a.
+(7!:5 <'q') -: 7!:5 <'x' [ q=:x=: adot1{~(?1e4)?@$#adot1
+(7!:5 <'q') -: 7!:5 <'x' [ q=:x=: adot2{~(?1e4)?@$#adot2
 (7!:5 <'q') -: 7!:5 <'x' [ q=:x=: (?100 100)?@$1e6
 (7!:5 <'q') -: 7!:5 <'x' [ q=:x=: o.(?30 30 30)?@$1e6
 (7!:5 <'q') -: 7!:5 <'x' [ q=:x=: j./(2,?100 100)?@$1e6
+(7!:5 <'q') -: 7!:5 <'x' [ q=:x=: s: <"0 a.{~(?1e4)?@$#a.
+(7!:5 <'q') -: 7!:5 <'x' [ q=:x=: s: <"0 adot1{~(?1e4)?@$#adot1
+(7!:5 <'q') -: 7!:5 <'x' [ q=:x=: s: <"0 adot2{~(?1e4)?@$#adot2
 
 1 [ unmap_jmf_ 'q'
+
+NB. Test usecount on mapped arrays
+NB. create clean mapped noun a
+f=: jpath'~temp/t.jmf'
+1 [ createjmf_jmf_ f;1000
+1 [ 1 unmap_jmf_'a' NB. 1 forces unmap - even with dangling refs
+1 [ map_jmf_ 'a';f
+a=: i.5
+
+NB. create foo and goo to create the problem
+foo=: 4 : 0
+if. x do. goo'' return. end.
+)
+
+goo=: 3 : 0
+0 foo <a NB. ".&.><'a'
+)
+
+NB. run foo calling goo calling foo (note perhaps nasty goo calling foo!)
+1 [ 1 foo '' NB. a NB. ".&.> <'a' [ !a
+(<,2) -: (<1 9) { showmap_jmf_''
+1 [ unmap_jmf_ 'a'
+
 18!:55 <'jmf'
 
-
-4!:55 ;:'bp f g q sp x'
+4!:55 ;:'adot1 adot2 sdot0 bp f g q sp x a foo goo'
 
 

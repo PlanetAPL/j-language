@@ -18,7 +18,6 @@ testsub=: 2 : 0
 
 test=: 2 : 0
  if. 'b' e. y do. u testsub v 0 1                          end.
- if. 'c' e. y do. u testsub v a.                           end.
  if. 'i' e. y do. u testsub v        _1000+  1000 ?@$ 2000 end.
  if. 'd' e. y do. u testsub v 4096%~*_1000+  1000 ?@$ 2000 end.
  if. 'z' e. y do. u testsub v j./    _1000+2 1000 ?@$ 2000 end.
@@ -100,6 +99,6 @@ y=: 30 7 ?@$ >.imax%8
 (4=3!:0 x) *. (imax-2) = x=: _1 2    +/@:* 1, x:^:_1 <.imax%2x
 
 
-4!:55 ;:'f p q space test testsub x xx y yy'
+4!:55 ;:'f p q space test testsub x xx y yy x0 y0'
 
 

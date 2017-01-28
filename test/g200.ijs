@@ -29,6 +29,13 @@ _  = ^  709.783
 
 'domain error' -: ^ etx 'abc'
 'domain error' -: ^ etx <'abc'
+'domain error' -: ^ etx u:'abc'
+'domain error' -: ^ etx <u:'abc'
+'domain error' -: ^ etx 10&u:'abc'
+'domain error' -: ^ etx <10&u:'abc'
+'domain error' -: ^ etx s:@<"0 'abc'
+'domain error' -: ^ etx s:@<"0&.> <'abc'
+'domain error' -: ^ etx <"0@s: <'abc'
 
 0 = ^_744.441j2e9
 0 = ^_744.441j_2e9
@@ -109,6 +116,7 @@ a       -:     0.5 ^_0.5
 (0,%-a) -: +. _2   ^_0.5
 (0,% a) -: +. _0.5 ^ 0.5
 (0, -a) -: +. _0.5 ^_0.5
+'length error' -: 1 2 3 ^ etx ,0.5
 
 1.25992104989487316476 -: 2^%3
 
@@ -119,6 +127,12 @@ x (^ -: pow) -n
 
 'domain error' -: 3   ^ etx 'abc'
 'domain error' -: 3   ^~etx 'abc'
+'domain error' -: 3   ^ etx u:'abc'
+'domain error' -: 3   ^~etx u:'abc'
+'domain error' -: 3   ^ etx 10&u:'abc'
+'domain error' -: 3   ^~etx 10&u:'abc'
+'domain error' -: 3   ^ etx s:@<"0 'abc'
+'domain error' -: 3   ^~etx s:@<"0 'abc'
 'domain error' -: 2   ^ etx 2;4 5
 'domain error' -: 2   ^~etx 2;4 5
 
@@ -315,6 +329,6 @@ _ -:  1r2 ^ {. __ 1r1
 'domain error' -: _1r2   ^ etx {.__ 1r1
 
 
-4!:55 ;:'a exp f h pow rou s x y'
+4!:55 ;:'a exp f h n pow rou s x y'
 
 

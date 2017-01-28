@@ -1,10 +1,21 @@
 NB. m}y and u}y ---------------------------------------------------------
 
+randuni''
+
 g =. e.&' '@{.} @ (,:&'_')
 h =. e.&' ' {"0 1 ,"0&'_'
 
 (g -: h) 'Cogito, ergo sum.'
+(g -: h) u:'Cogito, ergo sum.'
+(g -: h) 10&u:'Cogito, ergo sum.'
 (g -: h) 2 3 4$'Now is the time, all good mean, to ergo sum.'
+(g -: h) 2 3 4$u:'Now is the time, all good mean, to ergo sum.'
+(g -: h) 2 3 4$10&u:'Now is the time, all good mean, to ergo sum.'
+
+g =. e.&(s:@<"0 ' ')@{.} @ (,:&(s:@<"0 '_'))
+h =. e.&(s:@<"0 ' ') {"0 1 ,"0&(s:@<"0 '_')
+(g -: h) s:@<"0 'Cogito, ergo sum.'
+(g -: h) 2 3 4$s:@<"0 'Now is the time, all good mean, to ergo sum.'
 
 ((<0 1)&|: -: i.@}.@$}) i.,~?20
 ((<0 1)&|: -: i.@}.@$}) i.,~?20
@@ -48,13 +59,33 @@ f=: 3 : 0
    xx=: j./_500+?(2,$b)$1000
    yy=: j./_500+?(2,$b)$1000
    zz=: j./_500+?(2,$b)$1000
+  case. 'C' do.
+   xx=: a.{~?($b)$#a.
+   yy=: a.{~?($b)$#a.
+   zz=: a.{~?($b)$#a.
+  case. 'W' do.
+   xx=: adot1{~?($b)$#adot1
+   yy=: adot1{~?($b)$#adot1
+   zz=: adot1{~?($b)$#adot1
+  case. 'U' do.
+   xx=: adot2{~?($b)$#adot2
+   yy=: adot2{~?($b)$#adot2
+   zz=: adot2{~?($b)$#adot2
+  case. 'S' do.
+   xx=: sdot0{~?($b)$#sdot0
+   yy=: sdot0{~?($b)$#sdot0
+   zz=: sdot0{~?($b)$#sdot0
   end.
  i.0 0
 )
 
 g0=: 3 : 0  NB. basic identities, boolean selection
  f y
+ if. y e. 'CWUS' do.
+ q=: ($yy) $ (b0{,xx) (b0=. I.,b)},yy
+ else.
  q=: (xx*b)+yy*-.b
+ end.
  dd=: (b)}yy,:xx
  aa=: b}yy,:xx
  yy=: b}yy,:xx
@@ -78,29 +109,49 @@ g1=: 3 : 0  NB. basic identities, integer selection
 
 g2=: 3 : 0  NB. force new copy, boolean selection
  f y
+ if. y e. 'CWUS' do.
+ q=: ($yy) $ (b0{,xx) (b0=. I.,b)},yy
+ else.
  q=: (xx*b)+yy*-.b
+ end.
  p=: yy
  yy=: b}yy,:xx
  assert. q -: yy
+ if. y e. 'CWUS' do.
+ assert. q -: ($yy) $ (b0{,xx) (b0=. I.,b)},yy
+ else.
  assert. q -: (xx*b)+p*-.b
+ end.
  assert. -. p -: yy
  1
 )
 
 g3=: 3 : 0  NB. force new copy, integer selection
  f y
+ if. y e. 'CWUS' do.
+ q=: c{"0 1 xx,"0 1 yy ,"0 zz
+ else.
  q=: (xx*0=c)+(yy*1=c)+zz*2=c
+ end.
  p=: yy
  yy=: c}xx,yy,:zz
  assert. q -: yy
+ if. y e. 'CWUS' do.
+ assert. q -: c{"0 1 xx,"0 1 p,"0 zz
+ else.
  assert. q -: (xx*0=c)+(p*1=c)+zz*2=c
+ end.
  assert. -. p -: yy
  1
 )
 
 g4=: 3 : 0  NB. in place, boolean selection
  f y
+ if. y e. 'CWUS' do.
+ q=: ($yy) $ (b0{,xx) (b0=. I.,b)},yy
+ else.
  q=: (xx*b)+yy*-.b
+ end.
  t=: 7!:2 'yy=: b}yy,:xx'
  assert. q -: yy
  assert. t<IF64{2000 4000
@@ -122,7 +173,11 @@ g5=: 3 : 0  NB. integer selection
 g8=: 3 : 0  NB. force idiom misidentification, boolean selection
  f y
  xx=: {.,xx
+ if. y e. 'CWUS' do.
+ q=: ($yy) $ ((#b0)#xx) (b0=. I.,b)},yy
+ else.
  q=: (xx*b)+yy*-.b
+ end.
  aa=: b}yy,:xx
  yy=: b}yy,:xx
  assert. q -: yy
@@ -157,40 +212,43 @@ g11=: 3 : 0  NB. force idiom misidentification, integer selection
  1
 )
 
-g2c=: 3 : 0  NB. character data, boolean selection
- f y
- q=: b{"0 1 xx,"0 yy
- p=: yy
- yy=: b}xx,:yy
- assert. q -: yy
- assert. q -: b{"0 1 xx,"0 p
- assert. -. p -: yy
- 1
-)
-
-g3c=: 3 : 0  NB. character data, integer selection
- f y
- q=: c{"0 1 xx,"0 1 yy ,"0 zz
- p=: yy
- yy=: c}xx,yy,:zz
- assert. q -: yy
- assert. q -: c{"0 1 xx,"0 1 p,"0 zz
- assert. -. p -: yy
- 1
-)
-
-g0 "0 'BIDZ'
+g0 "0 'BIDZCWUS'
 g1 "0 'BIDZ'
-g2 "0 'BIDZ'
-g2c"0 'C'
-g3 "0 'BIDZ'
-g3c"0 'C'
-g4 "0 'BIDZ'
+g2 "0 'BIDZCWUS'
+g3 "0 'BIDZCWUS'
+g4 "0 'BIDZCWUS'
 g5 "0 'BIDZ'
-g8 "0 'BIDZ'
+g8 "0 'BIDZCWUS'
 g9 "0 'BIDZ'
 g10"0 'BIDZ'
 g11"0 'BIDZ'
+
+NB. Verify no local-to-global aliasing
+f10 =: 3 : 'a =. y} a,:b'
+f11 =: 3 : 'a =: y} a,:b'
+f12 =: 3 : ('a =. 2 3';'a =: y} a,:b')
+f13 =: 3 : ('a =. 2 3';'a =. y} a,:b')
+a =: 0 1 2 3
+b =: 9 8 7 6
+9 1 7 3 -: f10 1 0 1 0
+0 1 2 3 -: a
+9 8 7 6 -: b
+9 1 7 3 -: f11 1 0 1 0
+9 1 7 3 -: a
+9 8 7 6 -: b
+b =: 9 8
+'domain error' -: f12 etx 0 1
+2 8 -: f13 0 1
+
+NB. This used to fail (bad name check)
+c =: 1 2 3 4
+b =: 0 0 1 1
+c1 =: 1 2 3 4
+d1 =: 9 8 7 6
+c =: b} c1,:d1
+1 2 3 4 -: c1
+1 2 7 6 -: c
+   
 
 y=: 1 2 3
 b=: 0 1 2
@@ -214,8 +272,27 @@ f  =. '_'&((' '&= # i.@#)@,@]})
 h  =. e.&' ' {"0 1 ,"0&'_'
 
 'Cogito,*ergo*sum.' -: '*' (' '&= # i.@#)@]} 'Cogito, ergo sum.'
+
 (f -: h) 'Cogito, ergo sum.'
 (f -: h) 2 3 4$'Now is the time, all good mean, to ergo sum.'
+
+(u:'Cogito,*ergo*sum.') -: (u:'*') (' '&= # i.@#)@]} u:'Cogito, ergo sum.'
+
+(f -: h) u:'Cogito, ergo sum.'
+(f -: h) 2 3 4$u:'Now is the time, all good mean, to ergo sum.'
+
+(10&u:'Cogito,*ergo*sum.') -: (10&u:'*') (' '&= # i.@#)@]} 10&u:'Cogito, ergo sum.'
+
+(f -: h) 10&u:'Cogito, ergo sum.'
+(f -: h) 2 3 4$10&u:'Now is the time, all good mean, to ergo sum.'
+
+(s:@<"0 'Cogito,*ergo*sum.') -: (s:@<"0 '*') ((s:@<"0 ' ')&= # i.@#)@]} s:@<"0 'Cogito, ergo sum.'
+
+f1  =. (s:@<"0 '_')&(((s:@<"0 ' ')&= # i.@#)@,@]})
+h1  =. e.&(s:@<"0 ' ') {"0 1 ,"0&(s:@<"0 '_')
+
+(f1 -: h1) s:@<"0 'Cogito, ergo sum.'
+(f1 -: h1) 2 3 4$s:@<"0 'Now is the time, all good mean, to ergo sum.'
 
 C =. 2 : 'x & ((#i.@#)@,@y@] })'
 
@@ -223,12 +300,29 @@ C =. 2 : 'x & ((#i.@#)@,@y@] })'
 (f -: '_' C (' '&=)) 2 3 4$'Now is the time, all good mean, to ergo sum.'
 a -: ' ' C('_'&=) '_' C(' '&=) a =. 2 3 4$'Now is the time, all good mean, '
 
+(f -: '_' C (' '&=)) u:'Cogito, ergo sum.'
+(f -: '_' C (' '&=)) 2 3 4$u:'Now is the time, all good mean, to ergo sum.'
+a -: ' ' C('_'&=) '_' C(' '&=) a =. 2 3 4$u:'Now is the time, all good mean, '
+
+(f -: '_' C (' '&=)) 10&u:'Cogito, ergo sum.'
+(f -: '_' C (' '&=)) 2 3 4$10&u:'Now is the time, all good mean, to ergo sum.'
+a -: ' ' C('_'&=) '_' C(' '&=) a =. 2 3 4$10&u:'Now is the time, all good mean, '
+
+(f1 -: (s:@<"0 '_') C ((s:@<"0 ' ')&=)) s:@<"0 'Cogito, ergo sum.'
+(f1 -: (s:@<"0 '_') C ((s:@<"0 ' ')&=)) 2 3 4$s:@<"0 'Now is the time, all good mean, to ergo sum.'
+a -: (s:@<"0 ' ') C ((s:@<"0 '_')&=) (s:@<"0 '_') C((s:@<"0 ' ')&=) a =. 2 3 4$s:@<"0 'Now is the time, all good mean, '
+
 *./ (=@i. -: 1&((<0 1)&|:ia})@($&0)@(,~))"0 ?5$10
 
 'abcX' -: 'X' _1}'abcd'
+'abcX' -: 'X' _1}u:'abcd'
+'abcX' -: 'X' _1}10&u:'abcd'
 
 1   -: type 'a' ''}0$0
 2   -: type 'a' ''}''
+131072-: type 'a' ''}u:''
+262144-: type 'a' ''}10&u:''
+65536 -: type (s:@<"0 'a') ''}s:''
 4   -: type 'a' ''}i.0
 8   -: type 'a' ''}0$3.5
 16  -: type 'a' ''}0$3j5
@@ -256,6 +350,9 @@ x=: ?11 13 17$1e6
 
 test=: 4 : 'y -: x (i.0)}y'
 y=: 0 1 1;'235';2 3 5;2 3.5 6;2 3j5 6;(2;3;5);(u: 'abc');s: ' a b c'
+(0$&.>y) test&>/ y
+
+y=: 0 1 1;'235';2 3 5;2 3.5 6;2 3j5 6;(2;3;5);(10&u: 'abc');s: ' a b c'
 (0$&.>y) test&>/ y
 
 y -: (0$a:) ($0)} y=: 5 ?@$ 1e6
@@ -307,7 +404,14 @@ foo =. 3 : 0
  z=.z,sp 'xyz=. _456 (5)}xyz'   NB. in place
  z=.z,sp 'xyz=. _789 (6})xyz'   NB. in place
  z=.z,sp 'qqq=. _123 (7)}xyz'   NB. create copy
- assert. xyz -: 0 1 2 3 _123 _456 _789,7}.i.10000
+ z=.z,sp 'xyz=. 8 9 >:@[`[`]} xyz'  NB. in place
+ z=.z,sp 'xyz=. xyz >:@]`]`[} 11 12'  NB. in place
+ n =. 14 15
+ z=.z,sp 'xyz=. n >:@(17 ,~ [)`(16 ,~ [)`]} xyz'  NB. in place but only the amend and ]
+ assert. n -: 14 15
+ z=.z,sp 'xyz=. 8 9 >:@[`[`(,~)} xyz'  NB. in place only if 9!:53]1
+ z=.z,sp 'xyz=. xyz >:@]`]`,} 11 12'  NB. in place only if 9!:53]1
+ assert. xyz -: 0 1 2 3 _123 _456 _789 7 9 10 10 12 13 13 15 16 18 17, (18}.(i.10000)) , 8 9 11 12
  assert. pqr -: i. 10000
  z
 )
@@ -324,8 +428,34 @@ goo =. 3 : 0
  z
 )
 
-(68500 2900 2900 68500*2-b32) > t=.foo 1
-(68500 2900 2900 68500*2-b32) > t=.goo 1
+hoo =. 3 : 0
+ pqr=.xyz =: i.10000
+ z=:''
+ z=:z,sp 'xyz=: _123 (4)}xyz'   NB. create copy
+ z=:z,sp 'xyz=: _456 (5)}xyz'   NB. in place
+ z=:z,sp 'xyz=: _789 (6})xyz'   NB. in place
+ z=:z,sp 'qqq=: _123 (7)}xyz'   NB. create copy
+ z=:z,sp 'xyz=: 8 9 >:@[`[`]} xyz'  NB. in place
+ z=:z,sp 'xyz=: xyz >:@]`]`[} 11 12'  NB. in place
+ n =: 14 15
+ z=:z,sp 'xyz=: n >:@(17 ,~ [)`(16 ,~ [)`]} xyz'  NB. in place but only the amend
+ assert. n -: 14 15
+ z=:z,sp 'xyz=: 8 9 >:@[`[`(,~)} xyz'  NB. in place only if 9!:53]1
+ z=:z,sp 'xyz=: xyz >:@]`]`,} 11 12'  NB. in place only if 9!:53]1
+ assert. xyz -: 0 1 2 3 _123 _456 _789 7 9 10 10 12 13 13 15 16 18 17, (18}.(i.10000)) , 8 9 11 12
+ assert. pqr -: i. 10000
+ z
+)
+
+9!:53(0)
+((50000*2-b32) < 0 3 7 8 {t) , (5000*2-b32)> 1 2 4 5 6 { t=:foo 1
+((50000*2-b32) < 0 3{t) , (5000*2-b32)> 1 2 { t=:goo 1
+((50000*2-b32) < 0 3 7 8 {t) , (5000*2-b32)> 1 2 4 5 6 { t=:hoo 1
+9!:53(1)
+((50000*2-b32) < 0 3 {t) , (5000*2-b32)> 1 2 4 5 6 7 8 { t=:foo 1
+((50000*2-b32) < 0 3{t) , (5000*2-b32)> 1 2 { t=:goo 1
+((50000*2-b32) < 0 3 {t) , (5000*2-b32)> 1 2 4 5 6 7 8 { t=:hoo 1
+9!:53(2)   NB. Default
 
 abc =. save =. i.10000
 (68500*2-b32) > t1=.sp 'abc=. _123 (0)  }abc'  NB. create copy
@@ -355,8 +485,23 @@ x -: (<10;20;30){abc
 y -: (<10;20;30){ab
 *./, 1 (<10;20;30)} ab = abc
 
+NB. Verify no local-to-global aliasing
+1 [ 4!:55 <'a'
+f10 =: 3 : 'a =. (0) 1} a'
+f11 =: 3 : 'a =: (0) 1} a'
+f12 =: 3 : ('a =. 2 3';'a =: (0) 1} a')
+f13 =: 3 : ('a =. 2 3';'a =. (0) 1} a')
+a =: i. 4
+0 0 2 3 -: f10''
+0 1 2 3 -: a
+0 0 2 3 -: f11''
+0 0 2 3 -: a
+'domain error' -: f12 etx ''
+2 0 -: f13''
 
-4!:55 ;:'a aa ab abc b b32 C c d dd f foo '
-4!:55 ;:'g g0 g1 g2 g2c g3 g3c g4 g5 g8 g9 g10 g11 goo '
-4!:55 ;:'h i ia j k p q save sp t t0 t1 t2 test x xx y yy z z1 zz '
+
+4!:55 ;:'a aa ab abc adot1 adot2 sdot0 b b32 C c c1 d d1 dd f f foo f1 '
+4!:55 ;:'f10 f11 f12 f13'
+4!:55 ;:'g g0 g1 g2 g3 g4 g5 g8 g9 g10 g11 goo '
+4!:55 ;:'h h1 hoo i ia j k n p pqr q qqq save sp t t t0 t1 t2 test x xx xyz y yy z z1 zz '
 

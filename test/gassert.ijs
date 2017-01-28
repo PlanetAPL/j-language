@@ -1,6 +1,7 @@
 NB. assert --------------------------------------------------------------
 
-1: 9!:41 ]1
+ws=: 9!:40 ''
+9!:41 ]1  NB. retain comments and whitespace
 
 lf=: 10{a.
 
@@ -46,13 +47,24 @@ word=: 3 : 0
 
 word 'kerygmatic'
 word 'lucubrations'
+word u:'kerygmatic'
+word u:'lucubrations'
+word 10&u:'kerygmatic'
+word 10&u:'lucubrations'
 
 'assertion failure' -: word etx 1 2 3
 'assertion failure' -: word etx ,: 'kerygmatic'
+'assertion failure' -: word etx ,: u:'kerygmatic'
+'assertion failure' -: word etx ,: 10&u:'kerygmatic'
 'assertion failure' -: word etx 'zzz'
+'assertion failure' -: word etx u:'zzz'
+'assertion failure' -: word etx 10&u:'zzz'
 
 'control error' -: ex '3 : s' [ s=: 'assert.',lf,'if. y do. 1 end.'
 'control error' -: ex '3 : s' [ s=: 'assert.',lf,'assert. 0=y',lf,'2'
+'control error' -: ex '3 : s' [ s=: 'assert. if. do. end.'
+'control error' -: ex '3 : s' [ s=: 'assert. assert.'
+
 
 s=: 0 : 0
  if. y do. 'true' else. 'false' end.
@@ -61,6 +73,7 @@ s=: 0 : 0
 
 'control error' -: ex '3 : s' 
 
+9!:41 ws
 
-4!:55 ;:'f lf s word'
+4!:55 ;:'f lf s word ws'
 
